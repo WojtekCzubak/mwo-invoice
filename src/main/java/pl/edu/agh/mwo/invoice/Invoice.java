@@ -55,4 +55,20 @@ public class Invoice {
 		// TODO Auto-generated method stub
 		return number;
 	}
+	
+
+	public String preparePrint() {
+		// TODO Auto-generated method stub
+		String printed = String.valueOf(getNumber()); 
+		
+		for (Product product : products.keySet()) {
+			printed += "\n";
+			printed += product.getName();
+			printed += " " + products.get(product);
+			printed += " " + product.getPrice();
+						
+		}
+		printed += "Liczba pozycji: " + products.size();
+		return printed;
+	}
 }

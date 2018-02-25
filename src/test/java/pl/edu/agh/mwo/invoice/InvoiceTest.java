@@ -127,4 +127,34 @@ public class InvoiceTest {
 		int numberSecond = new Invoice().getNumber();
 		Assert.assertThat(numberFirst, Matchers.lessThan(numberSecond));
 	}
+	@Test
+	public void testNumberAvailableOnPrint(){
+		String printed = invoice.preparePrint();
+		String number = String.valueOf(invoice.getNumber());
+		Assert.assertThat(printed, Matchers.containsString(number));
+	}
+	@Test
+	public void testPrintContainsProductName(){
+		invoice.addProduct(new OtherProduct("Oscypek", new BigDecimal ("2.50")));
+		String printed = invoice.preparePrint();
+		Assert.assertThat(printed, Matchers.containsString("\nOscypek"));
+	}
+	@Test
+	public void testPrintCProductQuantity(){
+		invoice.addProduct(new OtherProduct("Oscypek", new BigDecimal ("2.50")), 3);
+		String printed = invoice.preparePrint();
+		Assert.assertThat(printed, Matchers.containsString("\nOscypek 3"));
+		}
+	@Test
+	public void testPrintCProductPrice(){
+		invoice.addProduct(new OtherProduct("Oscypek", new BigDecimal ("2.50")), 3);
+		String printed = invoice.preparePrint();
+		Assert.assertThat(printed, Matchers.containsString("\nOscypek 3 2.50"));
+		}
+	@Test
+	public void testPrintCProductFooter(){
+		invoice.addProduct(new OtherProduct("Oscypek", new BigDecimal ("2.50")), 3);
+		String printed = invoice.preparePrint();
+		Assert.assertThat(printed, Matchers.containsString("Liczba pozycji: 1"));
+		}
 }
